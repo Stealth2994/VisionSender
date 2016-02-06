@@ -25,32 +25,6 @@ public class TrackerBox2 {
 	public TrackerBox2(String raspberryPiAddress) {
 		RPi_addr = raspberryPiAddress;
 	}
-	
-	public void changeProfile(int newProfileNum) {
-		try{
-			Socket sock = new Socket(RPi_addr, changeProfilePort);
-			
-			OutputStream outToServer = sock.getOutputStream();
-			
-			DataOutputStream out = new DataOutputStream(outToServer);
-			
-			System.out.println("Sending request to switch to Profile "+Integer.toString(newProfileNum));
-			out.writeUTF( Integer.toString(newProfileNum) );
-			
-			sock.close();
-		} catch ( UnknownHostException e) {
-			System.out.println("Host unknown: "+RPi_addr);
-			return;
-		} catch (java.net.ConnectException e) {
-			System.out.println("TrackerBox Raspberry Pi is either not connected, or is not at address " + RPi_addr);
-			return;
-		} catch( IOException e) {
-			e.printStackTrace();
-			return;
-		}
-		
-	}
-	
 	@SuppressWarnings("deprecation")
 	public  ArrayList<TargetObject> getVisionData() {
 		ArrayList<TargetObject> prList = new ArrayList<>(); 
@@ -74,7 +48,7 @@ public class TrackerBox2 {
 					prList.add(new TargetObject());
 				}
 				String[] targets = rawData.split(":");
-				System.out.println(targets.length);
+				System.out.println(rawData);
 				for(String target : targets) {
 					TargetObject pr = new TargetObject();
 					String[] targetData = target.split(",");
